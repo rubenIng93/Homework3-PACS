@@ -90,7 +90,7 @@ def DANNalexnet(pretrained=False, progress=True, **kwargs):
 
     if pretrained:
         state_dict= torch.hub.load_state_dict_from_url(model_urls['alexnet'], progress=progress)
-        model.load_state_dict(state_dict)
+        model.load_state_dict(state_dict, strict=False)
 
         # Applying at the discriminator's layers the pretrained weights
         dann_fc_idx = [1, 4, 6]
