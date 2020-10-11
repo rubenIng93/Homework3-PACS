@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 from torch.autograd import Function
-from .utils import load_state_dict_from_url
+#from .utils import load_state_dict_from_url
 
 __all__ = ['AlexNet', 'alexnet']
 
@@ -89,7 +89,7 @@ def DANNalexnet(pretrained=False, progress=True, **kwargs):
     model = DANNAlexNet(**kwargs)
 
     if pretrained:
-        state_dict= load_state_dict_from_url(model_urls['alexnet'], progress=progress)
+        state_dict= torch.hub.load_state_dict_from_url(model_urls['alexnet'], progress=progress)
         model.load_state_dict(state_dict)
 
         # Applying at the discriminator's layers the pretrained weights
