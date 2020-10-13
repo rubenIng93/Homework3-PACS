@@ -67,20 +67,21 @@ class DANNAlexNet(nn.Module):
         )
 
     def forward(self, x, alpha=None):
-        features = self.features
-        features = features.avgpool(features)
+        
+        x = self.features(x)
+        x = self.avgpool(x)
         # Flatten the features:
-        features = features.view(features.size(0), -1)
+        x = x.view(x.size(0), -1)
         # If we pass alpha, we can assume we are training the discriminator
         if alpha is not None:
             # gradient reversal layer (backward gradients will be reversed)
-            reverse_feature = ReverseLayerF.apply(features, alpha)
+            reverse_feature = ReverseLayerF.apply(x, alpha)
             discriminator_output = self.dann_classifier(reverse_feature)
             return discriminator_output
         # If we don't pass alpha, we assume we are training with supervision
         else:
             # go in the classifier
-            class_outputs = self.classifier(features)
+            class_outputs = self.classifier(x)
             return class_outputs
 
 
